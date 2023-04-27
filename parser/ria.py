@@ -11,12 +11,12 @@ class AveragePrice:
             category: int, 
             sub_category: int, 
             operation: int, 
-            state_id: int, 
-            city_id: int, 
-            district_id: int, 
-            date_from: str, 
-            date_to: str, 
-            token: str, 
+            state_id=-1, 
+            city_id=-1, 
+            district_id=-1, 
+            date_from=-1, 
+            date_to=-1, 
+            api_token="", 
             url = "https://developers.ria.com/dom/average_price?") -> None:
         """
         category -> int, list of categories you can get in categories.json file
@@ -36,28 +36,40 @@ class AveragePrice:
         self.district_id = district_id
         self.date_from = date_from
         self.date_to = date_to
-        self.api_token = token
+        self.api_token = api_token
+        self.url = url
 
-    @property
-    def category(self):
-        return self._category
-    @property
-    def sub_category(self):
-        return self._sub_category
-    @property
-    def operation(self):
-        return self._operation
-    @property
-    def state_id(self):
-        return self._state_id
-    @property
-    def city_id(self):
-        return self._city.id
-    @property
-    def city_id(self):
-        return self._city.id
+    # @property
+    # def category(self):
+    #     return self._category
+    # @property
+    # def sub_category(self):
+    #     return self._sub_category
+    # @property
+    # def operation(self):
+    #     return self._operation
+    # @property
+    # def state_id(self):
+    #     return self._state_id
+    # @property
+    # def city_id(self):
+    #     return self._city.id
+    # @property
+        
     def average_price_request(self):
-        r = requests.get()
+        final_url = self.url + "category=" + str(self.category) + "&sub_category=" + str(self.sub_category) + "&operation=" + str(self.operation)
+        if self.state_id >= 1:
+            final_url += "&state_id="
+        if self.city_id >= 1:
+            final_url += "&city_id=" + str(self.city_id)
+        if self.district_id >= 1:
+            final_url += "&district_id=" + str(self.district_id)
+        if self.date_from != "":
+            final_url += "&date_from=" + self.date_from
+        if self.date_to != "":
+            final_url += "&date_to=" + self.date_to
+        final_url += "&api_key=" + self.api_token
+        r = requests.get(final_url)
         r.json()
 
         
