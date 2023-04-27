@@ -71,6 +71,4 @@ class AveragePrice:
         final_url += "&api_key=" + self.api_token
         r = requests.get(final_url)
         r.json()
-
         
-
